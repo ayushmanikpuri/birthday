@@ -4,15 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Bhaiya 🎉❤️✨</title>
-
 <style>
-* {
+•⁠  ⁠{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
 body, html {
   width: 100%;
   height: 100%;
@@ -20,7 +18,6 @@ body, html {
   background: radial-gradient(circle at top, #000015, #000);
   color: #fff;
 }
-
 .screen {
   position: absolute;
   width: 100%;
@@ -35,13 +32,11 @@ body, html {
   transform: scale(1.1);
   visibility: hidden;
 }
-
 .screen.active {
   opacity: 1;
   transform: scale(1);
   visibility: visible;
 }
-
 button {
   padding: 15px 30px;
   font-size: 1.2em;
@@ -53,23 +48,19 @@ button {
   box-shadow: 0 0 15px rgba(255,255,255,0.5);
   transition: transform 0.3s, box-shadow 0.3s;
 }
-
 button:hover {
   transform: scale(1.1);
   box-shadow: 0 0 30px #fff;
 }
-
 .glow-text {
   font-size: 3em;
   text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
   animation: glowPulse 2s infinite alternate;
 }
-
 @keyframes glowPulse {
   from { text-shadow: 0 0 10px #ff00ff; }
   to { text-shadow: 0 0 30px #00ffff; }
 }
-
 .sparkle {
   position: absolute;
   width: 6px; height: 6px;
@@ -78,12 +69,10 @@ button:hover {
   opacity: 0.7;
   animation: sparkleMove 5s linear infinite;
 }
-
 @keyframes sparkleMove {
   from { transform: translateY(0) scale(1); opacity: 1; }
   to { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
-
 .firework {
   position: absolute;
   width: 4px; height: 4px;
@@ -91,12 +80,18 @@ button:hover {
   border-radius: 50%;
   animation: explode 1s ease-out infinite;
 }
-
 @keyframes explode {
   0% { transform: scale(0); opacity: 1; }
   100% { transform: scale(10); opacity: 0; }
 }
-
+.fade-in {
+  animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+/* Photo flipbook */
 .flipbook {
   width: 80%;
   max-width: 400px;
@@ -112,13 +107,11 @@ button:hover {
   padding: 20px;
   text-align: center;
 }
-
 .flipbook img {
   max-width: 80%;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(255,255,255,0.5);
 }
-
 .nav-buttons {
   display: flex;
   justify-content: space-between;
@@ -126,29 +119,33 @@ button:hover {
 }
 </style>
 </head>
-
 <body>
 
+<!-- 1. Welcome Screen -->
 <div class="screen active" id="welcome-screen">
   <h1 class="glow-text">Let’s Go! 🎉</h1>
   <button onclick="nextScreen('surprise-screen')">Click to Begin</button>
 </div>
 
+<!-- 2. Surprise Waiting Screen -->
 <div class="screen" id="surprise-screen">
   <h2 class="glow-text">There’s a surprise waiting for you! ✨</h2>
   <button onclick="nextScreen('wish-screen')">Open Surprise</button>
 </div>
 
+<!-- 3. Birthday Wish Screen -->
 <div class="screen" id="wish-screen">
   <h1 class="glow-text">Happy Birthday Bhaiya 🎉❤️✨</h1>
   <button onclick="nextScreen('cake-screen')">Click here to see your surprise</button>
 </div>
 
+<!-- 4. Magical Cake Screen -->
 <div class="screen" id="cake-screen">
   <h1 class="glow-text">Magical Cake Time 🎂✨</h1>
   <button onclick="beginMagic()">Begin Magic</button>
 </div>
 
+<!-- 5. Love Calculator / Flipbook -->
 <div class="screen" id="love-screen">
   <button onclick="openBook()">Calculate Our Love ❤️</button>
   <div class="flipbook" id="flipbook">
@@ -161,87 +158,74 @@ button:hover {
   </div>
 </div>
 
-<audio id="bg-music" src="https://github.com/user-attachments/files/23570138/Tumse_Kiran_Dhoop_Ki_Song_Status_Lyrics_Status___Black_Screen_Video__WhatsApp_Status__Creative_Indra.128k.mp3" loop></audio>
+<audio id="bg-music" src="music.mp3" loop></audio>
 
 <script>
 let currentScreen = 'welcome-screen';
 let pageIndex = 0;
-
 const pages = [
-  {text: "Hapiii Birthday to You!", photo: "https://github.com/user-attachments/assets/b345de58-dad4-4a48-88f5-ae0db19ed5ba"},
-  {text: "You are the best brother ever ❤️", photo: "https://github.com/user-attachments/assets/a36c2767-bff1-446f-8c5e-8cee0fd2d975"},
-  {text: "Keep smiling always 🎈", photo: "https://github.com/user-attachments/assets/96e74145-aec8-4e50-aea2-c2efde056f3e"}
+  {text: "Hapiii Birthday to You!", photo: "photo1.jpg"},
+  {text: "You are the best brother ever ❤️", photo: "photo2.jpg"},
+  {text: "Keep smiling always 🎈", photo: "photo3.jpg"},
+  {text: "Love you loads 💖", photo: "photo4.jpg"}
 ];
-
 function nextScreen(id) {
   document.getElementById(currentScreen).classList.remove('active');
-  document.getElementById(id).classList.add('active');
+  const next = document.getElementById(id);
+  next.classList.add('active');
   currentScreen = id;
-
   if (id === 'wish-screen') playMusic();
 }
-
 function playMusic() {
   const music = document.getElementById('bg-music');
   music.play().catch(()=> {
     document.body.addEventListener('click', ()=>music.play(), {once:true});
   });
 }
-
 function beginMagic() {
   createFireworks();
   setTimeout(()=> nextScreen('love-screen'), 4000);
 }
-
 function createFireworks() {
-  for (let i = 0; i < 50; i++) {
+  for(let i=0; i<50; i++){
     let fw = document.createElement('div');
     fw.className = 'firework';
     fw.style.top = Math.random() * 100 + '%';
     fw.style.left = Math.random() * 100 + '%';
-
-    // FIXED COLOR LINE
-    fw.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
-
+    fw.style.background = ⁠ hsl(${Math.random()*360},100%,50%) ⁠;
     document.body.appendChild(fw);
-    setTimeout(()=> fw.remove(), 1500);
+    setTimeout(()=>fw.remove(), 1500);
   }
 }
-
 function createSparkles() {
-  for (let i = 0; i < 10; i++) {
+  for(let i=0; i<10; i++) {
     let s = document.createElement('div');
     s.className = 'sparkle';
     s.style.left = Math.random() * 100 + '%';
     s.style.top = '100%';
     s.style.animationDuration = (3 + Math.random()*3)+'s';
     document.body.appendChild(s);
-
-    setTimeout(()=> s.remove(), 6000);
+    setTimeout(()=>s.remove(), 6000);
   }
 }
 setInterval(createSparkles, 1000);
-
 function openBook() {
   document.getElementById('flipbook').style.display = 'flex';
   showPage(pageIndex);
 }
-
 function showPage(i) {
-  document.getElementById('page-text').textContent = pages[i].text;
-  document.getElementById('page-photo').src = pages[i].photo;
+  const page = pages[i];
+  document.getElementById('page-text').textContent = page.text;
+  document.getElementById('page-photo').src = page.photo;
 }
-
 function nextPagePhoto() {
   pageIndex = (pageIndex + 1) % pages.length;
   showPage(pageIndex);
 }
-
 function prevPage() {
   pageIndex = (pageIndex - 1 + pages.length) % pages.length;
   showPage(pageIndex);
 }
 </script>
-
 </body>
 </html>
